@@ -35,9 +35,12 @@ The easiest way to get an Algo server running is to run it on your local system 
 
     - Download the [ZIP file](https://github.com/trailofbits/algo/archive/master.zip). Unzip the file to create a directory named `algo-master` containing the Algo scripts.
 
-    - Run the command `git clone https://github.com/trailofbits/algo.git` to create a directory named `algo` containing the Algo scripts.
+    - Use `git clone` to create a directory named `algo` containing the Algo scripts:
+        ```bash
+        git clone https://github.com/trailofbits/algo.git
+        ```
 
-3. **Install Algo's core dependencies.** Algo requires that **Python 3.6 or later** and at least one supporting package are installed on your system.
+3. **Install Algo's core dependencies.** Algo requires that **Python 3.10 or later** and at least one supporting package are installed on your system.
 
     - **macOS:** Catalina (10.15) and higher includes Python 3 as part of the optional Command Line Developer Tools package. From Terminal run:
 
@@ -49,20 +52,16 @@ The easiest way to get an Algo server running is to run it on your local system 
 
         For macOS versions prior to Catalina, see [Deploy from macOS](docs/deploy-from-macos.md) for information on installing Python 3 .
 
-    - **Linux:** Recent releases of Ubuntu, Debian, and Fedora come with Python 3 already installed. Make sure your system is up-to-date and install the supporting package(s):
+    - **Linux:** Recent releases of Ubuntu, Debian, and Fedora come with Python 3 already installed. If your Python version is not 3.10, then you will need to use pyenv to install Python 3.10. Make sure your system is up-to-date and install the supporting package(s):
         * Ubuntu and Debian:
             ```bash
-            sudo apt install -y --no-install-recommends python3-virtualenv
+            sudo apt install -y --no-install-recommends python3-virtualenv file lookup
             ```
             On a Raspberry Pi running Ubuntu also install `libffi-dev` and `libssl-dev`.
+
         * Fedora:
             ```bash
             sudo dnf install -y python3-virtualenv
-            ```
-        * Red Hat and CentOS 7 and later (for earlier versions see this [documentation](docs/deploy-from-redhat-centos6.md)):
-            ```bash
-            sudo yum -y install epel-release
-            sudo yum -y install python36-virtualenv
             ```
 
     - **Windows:** Use the Windows Subsystem for Linux (WSL) to create your own copy of Ubuntu running under Windows from which to install and run Algo. See the [Windows documentation](docs/deploy-from-windows.md) for more information.
@@ -74,9 +73,10 @@ The easiest way to get an Algo server running is to run it on your local system 
       python3 -m pip install -U pip virtualenv &&
       python3 -m pip install -r requirements.txt
     ```
-    On Fedora add the option `--system-site-packages` to the first command above. On macOS install the C compiler if prompted.
+    On Fedora first run `export TMPDIR=/var/tmp`, then add the option `--system-site-packages` to the first command above (after `python3 -m virtualenv`). On macOS install the C compiler if prompted.
 
-5. **Set your configuration options.** Open the file `config.cfg` in your favorite text editor. Specify the users you wish to create in the `users` list. Create a unique user for each device you plan to connect to your VPN. If you want to add or delete users later, you **must** select `yes` at the `Do you want to retain the keys (PKI)?` prompt during the server deployment. You should also review the other options before deployment, as changing your mind about them later [may require you to deploy a brand new server](https://github.com/trailofbits/algo/blob/master/docs/faq.md#i-deployed-an-algo-server-can-you-update-it-with-new-features).
+5. **Set your configuration options.** Open the file `config.cfg` in your favorite text editor. Specify the users you wish to create in the `users` list. Create a unique user for each device you plan to connect to your VPN. 
+ > Note: [IKEv2 Only] If you want to add or delete users later, you **must** select `yes` at the `Do you want to retain the keys (PKI)?` prompt during the server deployment. You should also review the other options before deployment, as changing your mind about them later [may require you to deploy a brand new server](https://github.com/trailofbits/algo/blob/master/docs/faq.md#i-deployed-an-algo-server-can-you-update-it-with-new-features).
 
 6. **Start the deployment.** Return to your terminal. In the Algo directory, run `./algo` and follow the instructions. There are several optional features available, none of which are required for a fully functional VPN server. These optional features are described in greater detail in [here](docs/deploy-from-ansible.md).
 
@@ -131,6 +131,10 @@ WireGuard works great with Linux clients. See [this page](docs/client-linux-wire
 ### Linux strongSwan IPsec Clients (e.g., OpenWRT, Ubuntu Server, etc.)
 
 Please see [this page](docs/client-linux-ipsec.md).
+
+### OpenWrt Wireguard Clients
+
+Please see [this page](docs/client-openwrt-router-wireguard.md).
 
 ### Other Devices
 
@@ -204,7 +208,6 @@ After this process completes, the Algo VPN server will contain only the users li
 * Deploy from [macOS](docs/deploy-from-macos.md)
 * Deploy from [Windows](docs/deploy-from-windows.md)
 * Deploy from [Google Cloud Shell](docs/deploy-from-cloudshell.md)
-* Deploy from [RedHat/CentOS 6.x](docs/deploy-from-redhat-centos6.md)
 * Deploy from a [Docker container](docs/deploy-from-docker.md)
 
 ### Setup VPN Clients to Connect to the Server
